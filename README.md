@@ -1,6 +1,7 @@
 # cards-dealer
 
-Card generator
 
--Auto card generation
--Auto shuffle
+##Card generator
+
+  1. Auto card generation
+  2. Auto shuffle
