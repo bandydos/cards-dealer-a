@@ -28,10 +28,11 @@ const generateDeck = (amountOfDecks) => {
 
 
 // Shuffle first 2 cards.
-const shuffle = () => {
-    const tables = generateTables(4);
-    for (let i = 0; i < tables.length; i++) {
-        spliceCard(tables[i].cards, handT1); // ? Players apart in object
+const shuffle = (tbls) => {
+    for (let i = 0; i < tbls.length; i++) {
+        for (let j = 0; j < tbls[i].players.length; j++) {
+            spliceCard(tbls[i].cards, tbls[i].players[j]); // ? Players apart in object
+        }
     }
 }
 
@@ -45,7 +46,7 @@ const generateTables = (amountOfTables) => {
     for (let i = 0; i < amountOfTables; i++) {
         let table = {
             name: 'T' + (i + 1),
-            players: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
+            players: [[], [], [], [], [], []],
             dealer: 'D',
             cards: generateDeck(4)
         }
@@ -55,4 +56,7 @@ const generateTables = (amountOfTables) => {
     return tables
 }
 
-console.log(players)
+const tbls = generateTables(2);
+console.log(tbls);
+shuffle(tbls);
+console.log(tbls)
