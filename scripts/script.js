@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    
+
 })
 
 const ani = ['pard', 'monkey', 'baby', 'gorilla', 'kaka', 'blabla']
@@ -29,20 +29,30 @@ const generateDeck = (amountOfDecks) => {
 
 // Shuffle first 2 cards.
 const shuffle = () => {
-    for (let i = 0; i < 2; i++) {
-        spliceCard(cardsT1, handT1);
+    const tables = generateTables(4);
+    for (let i = 0; i < tables.length; i++) {
+        spliceCard(tables[i].cards, handT1); // ? Players apart in object
     }
-
 }
 
 const spliceCard = (crds, hnd) => {
-    hnd.push(crds.splice(Math.floor(Math.random() * crds.length), 1));
+    hnd.push(...crds.splice(Math.floor(Math.random() * crds.length), 1));
 }
 
-const cardsT1 = generateDeck(4);
-var handT1 = [];
+const generateTables = (amountOfTables) => {
+    let tables = [];
 
-shuffle()
-console.log(handT1)
+    for (let i = 0; i < amountOfTables; i++) {
+        let table = {
+            name: 'T' + (i + 1),
+            players: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
+            dealer: 'D',
+            cards: generateDeck(4)
+        }
+        tables.push(table);
+    }
 
+    return tables
+}
 
+console.log(players)
