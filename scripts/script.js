@@ -23,6 +23,7 @@ const generateDeck = (amountOfDecks) => {
     return deck;
 }
 
+// Generate tables.
 const generateTables = (amountOfTables, amountOfPlayersPerTable) => {
     let tables = [];
     let table = {};
@@ -35,10 +36,10 @@ const generateTables = (amountOfTables, amountOfPlayersPerTable) => {
             cards: generateDeck(4)
         }
         for (let j = 0; j < amountOfPlayersPerTable; j++) {
-            table.players.push([{
+            table.players.push({
                 name: 'P' + j,
-                hand: []
-            }])
+                hand: [] // Hand for every player.
+            })
         }
         tables.push(table);
     }
@@ -46,20 +47,23 @@ const generateTables = (amountOfTables, amountOfPlayersPerTable) => {
     return tables
 }
 
+// Splice card out of array.
 const pickCard = (crds, hnd) => {
     hnd.push(...crds.splice(Math.floor(Math.random() * crds.length), 1));
 }
 
 // Shuffle first 2 cards.
 const shuffle = (tbls) => {
-    for (let i = 0; i < tbls.length; i++) {
-        for (let j = 0; j < tbls[i].players.length; j++) {
-            pickCard(tbls[i].cards, tbls[i].players[j][0].hand);
+    for (let i = 0; i < 2; i++) {
+        for (let j = 0; j < tbls.length; j++) {
+            for (let k = 0; k < tbls[j].players.length; k++) {
+                pickCard(tbls[j].cards, tbls[j].players[k].hand); // [k][0] because of nesting.
+            }
         }
     }
 }
 
-const tbls = generateTables(2, 5);
+const tbls = generateTables(5, 6);
 shuffle(tbls);
 console.log(tbls)
 
