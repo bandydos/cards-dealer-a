@@ -38,8 +38,7 @@ const generateTables = (amountOfTables, amountOfPlayersPerTable) => {
             table.players.push([{
                 name: 'P' + j,
                 hand: []
-            }]
-            )
+            }])
         }
         tables.push(table);
     }
@@ -55,7 +54,7 @@ const pickCard = (crds, hnd) => {
 const shuffle = (tbls) => {
     for (let i = 0; i < tbls.length; i++) {
         for (let j = 0; j < tbls[i].players.length; j++) {
-            pickCard(tbls[i].cards, tbls[i].players[j]);
+            pickCard(tbls[i].cards, tbls[i].players[j][0].hand);
         }
     }
 }
