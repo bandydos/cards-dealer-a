@@ -13,25 +13,40 @@
 
 <body>
     <div class="jumbotron jumbotron-fluid bg-neat text-white">
-        <div class="container">
-            <h1>A1</h1>
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <h1>Blackjack dealer</h1>
+            </div>
         </div>
     </div>
     <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-2">
+                <input id="input-tables" class="form-control border-info text-info" placeholder="Tables"></input>
+            </div>
+            <div class="col-2">
+                <input id="input-players" class="form-control border-info text-info" placeholder="Players"></input>
+            </div>
+            <div class="col-3">
+                <button id="btn-shuffle" class="btn border-info text-info form-control">SHUFFLE</button>
+            </div>
+        </div>
         <div class="row mt-5">
-            
+            <div class="col-12" id="div-tables">
+                
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.0.js"
         integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous">
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-        <script src="scripts/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="scripts/script.js"></script>
 </body>
 
 </html>
