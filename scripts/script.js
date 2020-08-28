@@ -2,8 +2,6 @@ $(document).ready(() => {
 
 })
 
-const ani = ['pard', 'monkey', 'baby', 'gorilla', 'kaka', 'blabla']
-
 const generateDeck = (amountOfDecks) => {
     let deck = [];
     const suits = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
@@ -25,30 +23,23 @@ const generateDeck = (amountOfDecks) => {
     return deck;
 }
 
-
-
-// Shuffle first 2 cards.
-const shuffle = (tbls) => {
-    for (let i = 0; i < tbls.length; i++) {
-        for (let j = 0; j < tbls[i].players.length; j++) {
-            spliceCard(tbls[i].cards, tbls[i].players[j]); // ? Players apart in object
-        }
-    }
-}
-
-const spliceCard = (crds, hnd) => {
-    hnd.push(...crds.splice(Math.floor(Math.random() * crds.length), 1));
-}
-
-const generateTables = (amountOfTables) => {
+const generateTables = (amountOfTables, amountOfPlayersPerTable) => {
     let tables = [];
+    let table = {};
 
     for (let i = 0; i < amountOfTables; i++) {
-        let table = {
+        table = {
             name: 'T' + (i + 1),
-            players: [[], [], [], [], [], []],
+            players: [],
             dealer: 'D',
             cards: generateDeck(4)
+        }
+        for (let j = 0; j < amountOfPlayersPerTable; j++) {
+            table.players.push([{
+                name: 'P' + j,
+                hand: []
+            }]
+            )
         }
         tables.push(table);
     }
@@ -56,7 +47,20 @@ const generateTables = (amountOfTables) => {
     return tables
 }
 
-const tbls = generateTables(2);
-console.log(tbls);
+const pickCard = (crds, hnd) => {
+    hnd.push(...crds.splice(Math.floor(Math.random() * crds.length), 1));
+}
+
+// Shuffle first 2 cards.
+const shuffle = (tbls) => {
+    for (let i = 0; i < tbls.length; i++) {
+        for (let j = 0; j < tbls[i].players.length; j++) {
+            pickCard(tbls[i].cards, tbls[i].players[j]);
+        }
+    }
+}
+
+const tbls = generateTables(2, 5);
 shuffle(tbls);
 console.log(tbls)
+
