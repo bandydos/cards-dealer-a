@@ -6,7 +6,7 @@ $(document).ready(() => {
             const tables = generateTables(inputTables, inputPlayers);
             shuffle(tables);
             for (let i = 0; i < tables.length; i++) {
-                const column = '<div class="col-3 mt-5">';
+                const column = '<div class="col-3 mt-5">'; // Some problems
                 const thead = `<table><thead><th>${tables[i].name}<tr><th>#<th>cards`;
                 $('#div-tables').append(column + thead)
 
