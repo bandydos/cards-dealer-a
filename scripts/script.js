@@ -6,20 +6,23 @@ $(document).ready(() => {
             const tables = generateTables(inputTables, inputPlayers);
             shuffle(tables);
             for (let i = 0; i < tables.length; i++) {
-                const column = '<div class="col-3 mt-5">'; // Some problems
-                const thead = `<table><thead><th>${tables[i].name}<tr><th>#<th>cards`;
-                $('#div-tables').append(column + thead)
+                const col = '<div class="col-6 mt-5 bg-info">'; // Some problems
+                const t = `<table class="table" id="t${i}">`;
+                const th = `<thead><th>${tables[i].name}<tr><th>#<th>cards`;
+                const tb = `<tbody class="bg-danger" id="tb${i}">`;
+
+                $('#div-tables').append(col + t + th + tb)
 
                 const players = tables[i].players;
                 for (let j = 0; j < players.length; j++) {
                     const playerName = players[j].name;
                     const playerHand = players[j].hand;
-                    const tbodyPlayerName = `<tbody><tr><td>${playerName}`;
-                    $('#div-tables').append(tbodyPlayerName)
+                    const tbodyPlayerName = `<tr><td>${playerName}<td id="td${j}">`;
+                    $('#tb' + i).append(tbodyPlayerName)
                     for (let k = 0; k < playerHand.length; k++) {
                         const card = `${playerHand[k].name} of ${playerHand[k].suit}`;
-                        const tbodyPlayerCards = `<tbody><td>${card}`;
-                        $('#div-tables').append(tbodyPlayerCards)
+                        const tbodyPlayerCards = `${card} `;
+                        $('#td' + j).append(tbodyPlayerCards)
                     }
                 }
             }
