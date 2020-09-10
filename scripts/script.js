@@ -112,6 +112,7 @@ const playGame = (tbls) => {
     shuffle(tbls);
     calculateScore(tbls);
 
+    // Work on from here.
     for (let i = 0; i < tbls.length; i++) {
         for (let j = 0; j < tbls[i].players.length; j++) {
             if (checkHit(tbls[i].players[j].score)) {
