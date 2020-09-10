@@ -10,6 +10,13 @@ $(document).ready(() => {
             console.log('Fill in all fields.');
         }
     })
+
+    const tbles = generateTables(3, 5)
+    // shuffle(tbles)
+    // calculateScore(tbles)
+
+    playGame(tbles)
+    console.log(tbles)
 })
 
 const generateDeck = (amountOfDecks) => {
@@ -23,7 +30,8 @@ const generateDeck = (amountOfDecks) => {
                 let card = {
                     suit: suits[j],
                     name: names[k],
-                    value: values[k]
+                    value: values[k],
+                    deck: i + 1
                 }
                 deck.push(card);
             }
@@ -42,13 +50,18 @@ const generateTables = (amountOfTables, amountOfPlayersPerTable) => {
         table = {
             name: 'T' + (i + 1),
             players: [],
-            dealer: 'D',
+            dealer: {
+                name: 'D' + (i + 1),
+                hand: [],
+                score: 0
+            },
             cards: generateDeck(4)
         }
         for (let j = 0; j < amountOfPlayersPerTable; j++) {
             table.players.push({
                 name: 'P' + (j + 1),
-                hand: [] // Hand for every player.
+                hand: [], // Hand for every player.
+                score: 0
             })
         }
         tables.push(table);
@@ -66,8 +79,44 @@ const pickCard = (crds, hnd) => {
 const shuffle = (tbls) => {
     for (let i = 0; i < 2; i++) {
         for (let j = 0; j < tbls.length; j++) {
+            pickCard(tbls[j].cards, tbls[j].dealer.hand); // Shuffle for dealer.
             for (let k = 0; k < tbls[j].players.length; k++) {
-                pickCard(tbls[j].cards, tbls[j].players[k].hand);
+                pickCard(tbls[j].cards, tbls[j].players[k].hand); // Shuffle for players.
+            }
+        }
+    }
+}
+
+const calculateScore = (tbls) => {
+    for (let i = 0; i < tbls.length; i++) {
+        for (let j = 0; j < tbls[i].dealer.hand.length; j++) {
+            tbls[i].dealer.score += tbls[i].dealer.hand[j].value; // Calc dealer score.
+        }
+        for (let k = 0; k < tbls[i].players.length; k++) {
+            for (let l = 0; l < tbls[i].players[k].hand.length; l++) {
+                tbls[i].players[k].score += tbls[i].players[k].hand[l].value;
+            }
+        }
+    }
+}
+
+const checkHit = (scr) => {
+    if (scr < 17) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const playGame = (tbls) => {
+    shuffle(tbls);
+    calculateScore(tbls);
+
+    // Work on from here.
+    for (let i = 0; i < tbls.length; i++) {
+        for (let j = 0; j < tbls[i].players.length; j++) {
+            if (checkHit(tbls[i].players[j].score)) {
+                pickCard(tbls[i].cards, tbls[i].players[j].hand);
             }
         }
     }
@@ -78,6 +127,7 @@ const displayTables = (tbls) => {
     shuffle(tbls);
     for (let i = 0; i < tbls.length; i++) {
         const players = tbls[i].players; // Players.
+        const dealer = tbls[i].dealer;
 
         // Table elements + data.
         const col = '<div class="mt-5">';
@@ -86,8 +136,25 @@ const displayTables = (tbls) => {
         const th2 = `<thead><th>#<th>cards<th>score`;
         const tb = `<tbody id="tb${i}">`;
 
+        // Dealer table elements + data (+ids).
+        const trowdealer = `<tr class="bg-info">`;
+        const tddealername = `<td>${dealer.name}`;
+        const tddealerhand = `<td id="tdd${i}h">`;
+        const tddealerscore = `<td id="tdd${i}s">`;
+
         // Append elements to div.
         $('#div-tables').append(col + t + th1 + th2 + tb);
+
+        let dscore = 0; // Dealer score.
+        $('#tb' + i).append(trowdealer + tddealername + tddealerhand + tddealerscore);
+
+        // For each dealer card.
+        for (let l = 0; l < dealer.hand.length; l++) {
+            const card = `${dealer.hand[l].name} of ${dealer.hand[l].suit} (D${dealer.hand[l].deck}) `;
+            $('#tdd' + i + 'h').append(card); // Append all cards.
+            dscore += parseInt(dealer.hand[l].value); // Sum of values for all cards.
+        }
+        $('#tdd' + i + 's').append(dscore); // Append total score once (dealer).
 
         // For each player.
         for (let j = 0; j < players.length; j++) {
@@ -96,17 +163,17 @@ const displayTables = (tbls) => {
             let score = 0; // Total score.
 
             // Table row elements + data (+ids).
-            const trows = `<tr>`;
+            const trowplayer = `<tr>`;
             const tdplayername = `<td>${playerName}`;
             const tdplayerhand = `<td id="tdp${i}h${j}">`;
             const tdplayerscore = `<td id="tdp${i}s${j}">`;
 
             // Append elements to corresponding body.
-            $('#tb' + i).append(trows + tdplayername + tdplayerhand + tdplayerscore);
+            $('#tb' + i).append(trowplayer + tdplayername + tdplayerhand + tdplayerscore);
 
             // For each card.
             for (let k = 0; k < playerHand.length; k++) {
-                const card = `${playerHand[k].name} of ${playerHand[k].suit} `;
+                const card = `${playerHand[k].name} of ${playerHand[k].suit} (D${playerHand[k].deck}) `;
                 $('#tdp' + i + 'h' + j).append(card); // Append all cards.
                 score += parseInt(playerHand[k].value); // Sum of values for all cards.
             }
